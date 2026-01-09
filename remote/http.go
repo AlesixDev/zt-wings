@@ -137,6 +137,12 @@ func (c *client) requestOnce(ctx context.Context, method, path string, body io.R
 		}
 	}
 
+	if config.Get().RemoteQuery.CustomHeaders != nil {
+		for k, v := range config.Get().RemoteQuery.CustomHeaders {
+			req.Header.Set(k, v)
+		}
+	}
+
 	// Call all opts functions to allow modifying the request
 	for _, o := range opts {
 		o(req)
